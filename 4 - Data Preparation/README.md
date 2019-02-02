@@ -1,4 +1,4 @@
-# CS4BD-Edl-4: Data Preparation
+# Data Preparation
 
 A) Do the 5 Day Data Cleaning Challenge by Rachel Tateman:
 https://www.kaggle.com/getting-started/52652#latest=447933
