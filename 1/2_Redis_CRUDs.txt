@@ -1,0 +1,174 @@
+#############################################
+KEY / VALUE
+#############################################
+127.0.0.1:6379> set Kerstin Female
+OK
+127.0.0.1:6379> get Kerstin
+"Female"
+127.0.0.1:6379> set Kerstin 1
+OK
+127.0.0.1:6379> get Kerstin
+"1"
+127.0.0.1:6379> #string
+(error) ERR unknown command '#string'
+127.0.0.1:6379> set exercise1string "I'm a string"
+OK
+127.0.0.1:6379> get exercise1string
+"I'm a string"
+127.0.0.1:6379> set exercise1string "ich bin ein string"
+OK
+127.0.0.1:6379> get
+(error) ERR wrong number of arguments for 'get' command
+127.0.0.1:6379> get excercise1string
+(nil)
+127.0.0.1:6379> get exercise1string
+"ich bin ein string"
+127.0.0.1:6379> del exercise1string
+(integer) 1
+127.0.0.1:6379> get exercise1string
+(nil)
+
+#############################################
+HASHES
+#############################################
+127.0.0.1:6379> HMSET user:1 name "Wagner" vorname "Kerstin" wohnort "Berlin"
+OK
+127.0.0.1:6379> hgetall user:1
+1) "name"
+2) "Wagner"
+3) "vorname"
+4) "Kerstin"
+5) "wohnort"
+6) "Berlin"
+127.0.0.1:6379> hget user:1 name
+"Wagner"
+127.0.0.1:6379> hmset user:1 name "Mueller"
+OK
+127.0.0.1:6379> hgetall user:1
+1) "name"
+2) "Mueller"
+3) "vorname"
+4) "Kerstin"
+5) "wohnort"
+6) "Berlin"
+127.0.0.1:6379> hdel user:1 vorname
+(integer) 1
+127.0.0.1:6379> hgetall user:1
+1) "name"
+2) "Mueller"
+3) "wohnort"
+4) "Berlin"
+
+#############################################
+LISTS
+#############################################
+127.0.0.1:6379> lpush liste1 Statistik Mathmatik "Data Science"
+(integer) 3
+127.0.0.1:6379> lrange liste1 0 -1
+1) "Data Science"
+2) "Mathmatik"
+3) "Statistik"
+127.0.0.1:6379> lrange liste1 0 1
+1) "Data Science"
+2) "Mathmatik"
+127.0.0.1:6379> lrange liste1 0 0
+1) "Data Science"
+127.0.0.1:6379> lpush liste1 Statistik Mathmatik "Data Science
+Invalid argument(s)
+127.0.0.1:6379> rpush liste2 Statistik Mathematik "Data Science"
+(integer) 3
+127.0.0.1:6379> rrange liste2
+(error) ERR unknown command 'rrange'
+127.0.0.1:6379> rrange liste2 0 -1
+(error) ERR unknown command 'rrange'
+127.0.0.1:6379> lrange liste2 0 -1
+1) "Statistik"
+2) "Mathematik"
+3) "Data Science"
+127.0.0.1:6379>
+127.0.0.1:6379> LREM liste1 0 "Data Science A-Z"
+(integer) 0
+127.0.0.1:6379> lrange liste1 0 -1
+1) "Data Science"
+2) "Mathmatik"
+3) "Statistik"
+127.0.0.1:6379> lpush liste3 mathe bio informatik
+(integer) 3
+127.0.0.1:6379> lrem liste1 0
+(error) ERR wrong number of arguments for 'lrem' command
+127.0.0.1:6379> lrem liste1 0 "Data Science"
+(integer) 1
+127.0.0.1:6379> lrange liste1 0 -1
+1) "Mathmatik"
+2) "Statistik"
+127.0.0.1:6379> lset liste1 0 "DataScience again"
+OK
+127.0.0.1:6379> lrange liste1 0 -1
+1) "DataScience again"
+2) "Statistik"
+127.0.0.1:6379> LINSERT liste1 BEFORE Statistik Mathematik
+(integer) 3
+127.0.0.1:6379> lrange liste1 0 -1
+1) "DataScience again"
+2) "Mathematik"
+3) "Statistik"
+127.0.0.1:6379> del liste1
+(integer) 1
+127.0.0.1:6379> lrange liste1 0 -1
+(empty list or set)
+
+#############################################
+SETS
+#############################################
+127.0.0.1:6379> SAAD birds owl eagle
+(error) ERR unknown command 'SAAD'
+127.0.0.1:6379> sadd birds owl eagle
+(integer) 2
+127.0.0.1:6379> smembers birds
+1) "eagle"
+2) "owl"
+127.0.0.1:6379> sadd birds owl
+(integer) 0
+127.0.0.1:6379> smembers birds
+1) "eagle"
+2) "owl"
+127.0.0.1:6379> sadd birds sparrow
+(integer) 1
+127.0.0.1:6379> smembers birds
+1) "sparrow"
+2) "eagle"
+3) "owl"
+127.0.0.1:6379> srem birds owl
+(integer) 1
+127.0.0.1:6379> smembers birds
+1) "sparrow"
+2) "eagle"
+
+#############################################
+SORTED SETS
+#############################################
+127.0.0.1:6379> zadd numbers 1 "one" 1 "un" 2 "two" 2 "deux" 3 "three" 4 "four"
+(integer) 6
+127.0.0.1:6379> zrange numbers 0 -1 WITHSCORES
+ 1) "one"
+ 2) "1"
+ 3) "un"
+ 4) "1"
+ 5) "deux"
+ 6) "2"
+ 7) "two"
+ 8) "2"
+ 9) "three"
+10) "3"
+11) "four"
+12) "4"
+127.0.0.1:6379> zrem numbers un deux
+(integer) 2
+127.0.0.1:6379> zrange numbers 0 -1
+1) "one"
+2) "two"
+3) "three"
+4) "four"
+127.0.0.1:6379> del birds numbers
+(integer) 2
+127.0.0.1:6379>
