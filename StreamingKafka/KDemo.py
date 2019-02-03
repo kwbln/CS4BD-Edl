@@ -1,16 +1,18 @@
 from queue import Queue
 
-from StreamingKafka import KProducer
 from StreamingKafka import KConsumer
-
+from StreamingKafka import KProducer
 
 
 def main():
     network = ['localhost', '9092']
     queue = Queue()
 
-    queue.put((20, True, 1))  # 20 numbers, even, 1s sleep
-    queue.put((10, False, 2))  # 10 numbers, odd, 2s sleep
+    # Producer A: 20 numbers, even, 1s sleep
+    queue.put((20, True, 1))
+
+    # Producer B: 10 numbers, odd, 2s sleep
+    queue.put((10, False, 2))
 
     topics = 'AB'
 
