@@ -15,11 +15,11 @@ def main():
     topics = 'AB'
 
     for char in topics:
-        worker = KProducer(network=network, queue=queue, topic=char)
+        worker = KProducer.KProducer(network=network, queue=queue, topic=char)
         worker.daemon = True
         worker.start()
 
-    worker_consumer = KConsumer(network=network)
+    worker_consumer = KConsumer.KConsumer(network=network)
     worker_consumer.daemon = True
     worker_consumer.start()
 
